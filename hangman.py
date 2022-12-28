@@ -24,15 +24,15 @@ class Bank:
         print(f'Topic: {self.current_topic}')
 
     def get_word(self):
-        response = requests.get(f"{self.api}", headers={'X-Api-Key': f"{self.api_key}"}, params={type:'noun'})
+        response = requests.get(f"{self.api}", headers={'X-Api-Key': f"{self.api_key}"}, params={type:f'{self.current_topic}'})
         if response.status_code == 200:
-            word = json.loads(response.text)
+            word = str.lower(json.loads(response.text))
             self.api_response_status = True
             self.current_word = word['word']
         else:
             self.current_word = choice(self.topics[self.current_topic])
             self.api_response_status = False
-        self.pick_word()
+        #self.pick_word()
 
     def pick_word(self):
         #self.current_word = choice(self.topics[self.current_topic])
@@ -94,6 +94,7 @@ class Main:
         
         word_bank.pick_topic()
         word_bank.get_word()
+        word_bank.pick_word()
 
         while word_bank.not_solved and player1.lives > 0:
             while player1.guess_validation_incomplete:
