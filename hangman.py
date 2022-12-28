@@ -1,3 +1,5 @@
+import json
+import requests
 from random import choice
 import re
 
@@ -30,9 +32,10 @@ class Bank:
         else:
             self.current_word = choice(self.topics[self.current_topic])
             self.api_response_status = False
+        self.pick_word()
 
     def pick_word(self):
-        self.current_word = choice(self.topics[self.current_topic])
+        #self.current_word = choice(self.topics[self.current_topic])
         for i in self.current_word:
             self.current_word_display.append('_')
         print(f'Word is {len(self.current_word)} letters long.')
@@ -55,9 +58,8 @@ class Processes:
     def __init__(self):
         pass
 
-    def validate_user_input(self, player):
-        #expression=re.match('(?i)[a-a]',player.answer)
-        expression = player.answer
+    def validate_user_input(self, player):#if it is one char!
+        expression=re.match(r"[a-zA-Z]*",player.answer).string
         if expression == None or len(player.answer)>1:
             print('\nPlease guess a single alphabet')
         else:
