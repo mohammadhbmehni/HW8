@@ -91,7 +91,7 @@ class Main:
         game = Processes()
         
         word_bank.pick_topic()
-        word_bank.pick_word()
+        word_bank.get_word()
 
         while word_bank.not_solved and player1.lives > 0:
             while player1.guess_validation_incomplete:
