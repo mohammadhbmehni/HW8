@@ -26,9 +26,9 @@ class Bank:
     def get_word(self):
         response = requests.get(f"{self.api}", headers={'X-Api-Key': f"{self.api_key}"}, params={type:f'{self.current_topic}'})
         if response.status_code == 200:
-            word = str.lower(json.loads(response.text))
+            word = json.loads(response.text)
             self.api_response_status = True
-            self.current_word = word['word']
+            self.current_word = str.lower(word['word'])
         else:
             self.current_word = choice(self.topics[self.current_topic])
             self.api_response_status = False
@@ -52,6 +52,9 @@ class Player:
 
     def guess(self):
         self.answer = input('Guess a letter: ')
+        
+    def set_lives(self,bank):
+        self.lives = len(bank.current_word)*3
 
 
 class Processes:
@@ -59,7 +62,7 @@ class Processes:
         pass
 
     def validate_user_input(self, player):#if it is one char!
-        expression=re.match(r"[a-zA-Z]*",player.answer).string
+        expression=re.match(r"^[a-zA-Z]*$",player.answer).string
         if expression == None or len(player.answer)>1:
             print('\nPlease guess a single alphabet')
         else:
@@ -95,6 +98,7 @@ class Main:
         word_bank.pick_topic()
         word_bank.get_word()
         word_bank.pick_word()
+        player1.set_lives(word_bank)
 
         while word_bank.not_solved and player1.lives > 0:
             while player1.guess_validation_incomplete:
