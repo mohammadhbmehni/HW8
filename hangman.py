@@ -56,7 +56,8 @@ class Processes:
         pass
 
     def validate_user_input(self, player):
-        expression=re.match('(?i)[a-a]',player.answer)
+        #expression=re.match('(?i)[a-a]',player.answer)
+        expression = player.answer
         if expression == None or len(player.answer)>1:
             print('\nPlease guess a single alphabet')
         else:
@@ -108,7 +109,7 @@ class Main:
             print('\nYou lose')
             print('Word was {}'.format(word_bank.current_word))
 
-        replay = input('Press any key to play again, x to quit: ')
+        replay = input('Press any key to play again, X to quit: ')
         print('\n')
         if replay.upper() == 'X':
             break
